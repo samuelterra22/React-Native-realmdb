@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { Keyboard }        from 'react-native'
-import Icon                from 'react-native-vector-icons/MaterialIcons'
+import React, { useEffect, useState } from 'react'
+import { Keyboard }                   from 'react-native'
+import Icon                           from 'react-native-vector-icons/MaterialIcons'
 
 import api      from '~/services/api'
 import getRealm from '~/services/realm'
@@ -39,8 +39,17 @@ export default function Main () {
     const realm = await getRealm()
 
     realm.write(() => {
-      realm.create('Repository', data)
+      realm.create('Repository', data, 'modified')
     })
+
+    return data
+  }
+
+  async function handleRefreshRepository (repository) {
+    const response = await api.get(`/repos/${repository.fullName}`)
+
+    const data = await saveRepository(response.data)
+    setRepositories(repositories.map(repo => (repo.id === data.id ? data : repo)))
   }
 
   async function handleAddRepository () {
@@ -78,7 +87,7 @@ export default function Main () {
         data={ repositories }
         keyExtractor={ item => String(item.id) }
         renderItem={ ({item}) => (
-          <Repository data={ item }/>
+          <Repository data={ item } onRefresh={ () => handleRefreshRepository(item) }/>
         ) }
       />
 
