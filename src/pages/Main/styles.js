@@ -1,11 +1,11 @@
-import styled from 'styled-components/native'
-import LinearGradient from 'react-native-linear-gradient'
+import styled                 from 'styled-components/native'
+import LinearGradient         from 'react-native-linear-gradient'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 
 export const Container = styled(LinearGradient).attrs({
   colors: ['#7159c1', '#9b49c1'],
-  start: {x: 0, y:0},
-  end: {x: 1, y:1}
+  start: {x: 0, y: 0},
+  end: {x: 1, y: 1}
 })`
   flex: 1;
   padding-top: ${30 + getStatusBarHeight()}px;
@@ -41,5 +41,11 @@ export const Submit = styled.TouchableOpacity`
   justify-content: center;
   border-radius: 4px;
   padding: 0 14px;
-  
+`
+
+export const List = styled.FlatList.attrs({
+  contentContainerStyle: {paddingHorizontal: 20},
+  showsVerticalScrollIndicator: false
+})`
+  margin-top: 20px;
 `
